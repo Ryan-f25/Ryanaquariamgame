@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 //*******************************************************************************
 // Class Definition Section
 
+//you have to edit the marlin pic. Then change the title of the image below so it works correctly.
+//Then add anther yellowfin and marlin that face a different way.
 public class BasicGameApp implements Runnable {
 
    //Variable Definition Section
@@ -39,7 +41,7 @@ public class BasicGameApp implements Runnable {
    
 	public BufferStrategy bufferStrategy;
 	public Image marlinPic;
-	public Image yellowfinPic;
+	public Image yellowfinPic1;
 	public Image background;
 
    //Declare the objects used in the program
@@ -67,13 +69,13 @@ public class BasicGameApp implements Runnable {
       //variable and objects
       //create (construct) the objects needed for the game and load up
 		background = Toolkit.getDefaultToolkit().getImage("Coral Reef.jpeg");
-		marlinPic = Toolkit.getDefaultToolkit().getImage("Stripped Marlin.jpg"); //load the picture
+		marlinPic = Toolkit.getDefaultToolkit().getImage("Stripped Marlin.png"); //load the picture
 		marlin1 = new Fish(10,175);
 		marlin1.height = 15+marlin1.height;
 		marlin1.width = 50+marlin1.width;
 		marlin1.dx=3;
 
-		yellowfinPic = Toolkit.getDefaultToolkit().getImage("Yellowfin Tuna.jpeg");
+		yellowfinPic1 = Toolkit.getDefaultToolkit().getImage("Yellowfin Tuna.jpeg");
 		yellowfin1 = new Fish(50,450);
 		yellowfin1.height = 10+yellowfin1.height;
 		yellowfin1.width = 35+yellowfin1.width;
@@ -164,7 +166,12 @@ public class BasicGameApp implements Runnable {
       //draw the image of the astronaut
 		g.drawImage(marlinPic, marlin1.xpos, marlin1.ypos, marlin1.width, marlin1.height, null);
 		g.draw(new Rectangle(marlin1.xpos, marlin1.ypos, marlin1.width, marlin1.height));
-		g.drawImage(yellowfinPic, yellowfin1.xpos, yellowfin1.ypos, yellowfin1.width, yellowfin1.height, null);
+		if(yellowfin1.dx >0) {
+			g.drawImage(yellowfinPic1, yellowfin1.xpos, yellowfin1.ypos, yellowfin1.width, yellowfin1.height, null);
+		}
+		else{
+			//Add another yellowfin here that faces the other way.fix this to make yellowfinPic2g.drawImage(yellowfinPic2, yellowfin1.xpos, yellowfin1.ypos, yellowfin1.width, yellowfin1.height, null);
+		}
 		g.draw(new Rectangle(yellowfin1.xpos, yellowfin1.ypos, yellowfin1.width, yellowfin1.height));
 
 		g.dispose();
