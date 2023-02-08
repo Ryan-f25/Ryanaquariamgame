@@ -7,7 +7,6 @@ import java.awt.*;
 public class Fish {
 
 
-
     //VARIABLE DECLARATION SECTION
     //Here's where you state which variables you are going to use.
     public String name;                //holds the name of the hero
@@ -18,6 +17,7 @@ public class Fish {
     public int width;
     public int height;
     public boolean isAlive; //a boolean to denote if the hero is alive or dead.
+    public boolean isCrashing;
     public Rectangle rec;
 
 
@@ -32,19 +32,19 @@ public class Fish {
     public Fish(int pXpos, int pYpos) {
         xpos = pXpos;
         ypos = pYpos;
-        dx =1;
-        dy =0;
+        dx = 1;
+        dy = 0;
         width = 60;
         height = 60;
         isAlive = true;
-
+        rec = new Rectangle(xpos, ypos, height, width);
     } // constructor
 
     //The move method.  Everytime this is run (or "called") the hero's x position and y position change by dx and dy
     public void move() {
         xpos = xpos + dx;
         ypos = ypos + dy;
-
+        rec = new Rectangle(xpos, ypos, height, width);
     }
 
     public void bounce() {
@@ -65,15 +65,16 @@ public class Fish {
         rec = new Rectangle(xpos, ypos, height, width);
     }
 
-    public void rotate() {
-
-
+    public void wrap() {
+        if (xpos >999) {
+            xpos=0;
+        }
+        if (ypos<0) {
+            ypos=700;
+        }
+        xpos = xpos + dx;
+        ypos = ypos + dy;
+        rec = new Rectangle(xpos, ypos, height, width);
     }
 }
-
-
-
-
-
-
 
