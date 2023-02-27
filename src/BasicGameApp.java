@@ -13,6 +13,7 @@
 
 //Graphics Libraries
 import java.awt.Graphics2D;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.JFrame;
@@ -25,7 +26,10 @@ import javax.swing.JPanel;
 //add more fish. Slower ones
 //Why isn't my "isCrashing" working
 //Also fix the issues with fishinghook rectangle
-public class BasicGameApp implements Runnable {
+public class BasicGameApp implements Runnable, KeyListener, MouseListener, MouseMotionListener {
+
+	//Step one for arrays
+	//
 
 	//Variable Definition Section
 	//Declare the variables used in the program
@@ -67,6 +71,8 @@ public class BasicGameApp implements Runnable {
 	private Fish orca2;
 	private Fish barracuda1;
 	private Fish barracuda2;
+	public Image dolphinPic;
+	private Fish[] dolphin; // I declared an array of dolphin
 
 
 	// Main method definition
@@ -82,8 +88,15 @@ public class BasicGameApp implements Runnable {
 	// This section is the setup portion of the program
 	// Initialize your variables and construct your program objects here.
 	public BasicGameApp() {
-
 		setUpGraphics();
+
+		dolphinPic = Toolkit.getDefaultToolkit().getImage("dolphin.jpg");
+		dolphin = new Fish[100];//construct the array to hold the dolphin, is it empty
+		for(int x=0;x<dolphin.length;x++) {
+			dolphin[x] = new Fish (200+x,300-(10+x));//fill each slot in the "bookshelf"
+			// then after this go through everywhere I use dolphin[] and change a number to x in the []
+		}
+
 
 		//variable and objects
 		//create (construct) the objects needed for the game and load up
@@ -107,14 +120,14 @@ public class BasicGameApp implements Runnable {
 		orca1.height = 75 + orca1.height;
 		orca1.width = 100 + orca1.width;
 		orca1.dx = 2;
-		orca1.dy = 6;
+		orca1.dy = 2;
 
 		orcaPic2 = Toolkit.getDefaultToolkit().getImage("Orca right.jpeg");
 		orca2 = new Fish(10, 275);
 		orca2.height = 75 + orca2.height;
 		orca2.width = 100 + orca2.width;
 		orca2.dx = 2;
-		orca2.dy = 6;
+		orca2.dy = 2;
 
 		fishinghookPic = Toolkit.getDefaultToolkit().getImage("Fishing hook 2.png");
 		fishinghook = new Fish(450, 450);
@@ -128,15 +141,15 @@ public class BasicGameApp implements Runnable {
 		marlin1 = new Fish(10, 175);
 		marlin1.height = 15 + marlin1.height;
 		marlin1.width = 50 + marlin1.width;
-		marlin1.dx = 6;
-		marlin1.dy = 7;
+		//marlin1.dx = 3;
+		//marlin1.dy =4;
 
 		marlinPic2 = Toolkit.getDefaultToolkit().getImage("Stripped Marlin 2.jpg"); //load the picture
 		marlin2 = new Fish(10, 175);
 		marlin2.height = 15 + marlin2.height;
 		marlin2.width = 50 + marlin2.width;
-		marlin2.dx = 6;
-		marlin2.dy = 7;
+		//marlin2.dx = 3;
+		//marlin2.dy = 4;
 
 		yellowfinPic1 = Toolkit.getDefaultToolkit().getImage("Yellowfin Tuna 2.jpeg");
 		yellowfin1 = new Fish(50, 450);
@@ -197,15 +210,18 @@ public class BasicGameApp implements Runnable {
 		barracuda1.bounce();
 		barracuda2.move();
 		barracuda2.bounce();
-		marlincrash();
-		yellowfincrash();
-		orcacrash();
-		barracudacrash();
-		marlinfishbounce();
-		yellowfinbounce();
-		barracudabounce();
+		//marlincrash();
+		//yellowfincrash();
+		//orcacrash();
+		//barracudacrash();
+		//marlinfishbounce();
+		//yellowfinbounce();
+		//barracudabounce();
 		//orcabounce();
 
+		for(int x=0;x<dolphin.length;x++) {
+			dolphin[x].move();
+		}
 	}
 
 	//Pauses or sleeps the computer for the amount specified in milliseconds
@@ -233,6 +249,9 @@ public class BasicGameApp implements Runnable {
 		canvas.setIgnoreRepaint(true);
 
 		panel.add(canvas);  // adds the canvas to the panel.
+		canvas.addKeyListener(this);
+		canvas.addMouseListener(this);
+		canvas.addMouseMotionListener(this);
 
 		// frame operations
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  //makes the frame close and exit nicely
@@ -372,6 +391,11 @@ public class BasicGameApp implements Runnable {
 		g.drawImage(fishinghookPic, fishinghook.xpos, fishinghook.ypos, fishinghook.width, fishinghook.height, null);
 		g.draw(new Rectangle(fishinghook.xpos, fishinghook.ypos, fishinghook.width, fishinghook.height));
 
+		for(int x=0;x<dolphin.length;x++) {
+			g.drawImage(dolphinPic, dolphin[x].xpos, dolphin[x].ypos, dolphin[x].width, dolphin[x].height, null);
+		}
+
+
 		//my barracuda does not flip around when it bounces. The code is the same as the other fish
 		//but it does not flip horizontally
 		if (barracuda1.isAlive == true && barracuda2.isAlive == true) {
@@ -414,4 +438,91 @@ public class BasicGameApp implements Runnable {
 
 			bufferStrategy.show();
 		}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+		int Code = e.getKeyCode();
+		System.out.println(Code);
+		int c = Math.abs(Code);
+
+		if(Code == 83) {
+			orca1.dy= Math.abs(orca1.dy);
+			orca2.dy=Math.abs(orca2.dy);
+		}
+
+		if(Code == 87) {
+			orca1.dy= Math.abs(orca1.dy);
+			orca2.dy=Math.abs(orca2.dy);
+		}
+
+		if(Code == 65){
+
+		}
+
+		if(Code ==68) {
+
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		System.out.println(e.getX());
+		marlin1.xpos = e.getX();
+		marlin1.ypos = e.getY();
+		marlin2.xpos = e.getX();
+		marlin2.ypos = e.getY();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		yellowfin1.height = yellowfin1.height+1;
+		yellowfin2.height = yellowfin2.height+1;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		marlin1.dx=5;
+		marlin2.dx=5;
+		marlin1.dy=5;
+		marlin2.dy=5;
+		marlin1.xpos = -marlin1.xpos;
+		marlin1.ypos = -marlin1.ypos;
+		marlin2.xpos = -marlin2.xpos;
+		marlin2.ypos=-marlin2.ypos;
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		marlin1.xpos = e.getX();
+		marlin1.ypos = e.getY();
+		marlin2.xpos = e.getX();
+		marlin2.ypos = e.getY();
+	}
+}

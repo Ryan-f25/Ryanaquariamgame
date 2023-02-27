@@ -7,6 +7,7 @@ import java.awt.*;
 public class Fish {
 
 
+    public static int length;
     //VARIABLE DECLARATION SECTION
     //Here's where you state which variables you are going to use.
     public String name;                //holds the name of the hero
@@ -32,7 +33,7 @@ public class Fish {
     public Fish(int pXpos, int pYpos) {
         xpos = pXpos;
         ypos = pYpos;
-        dx = 1;
+        dx = 0;
         dy = 0;
         width = 60;
         height = 60;
